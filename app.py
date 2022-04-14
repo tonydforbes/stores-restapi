@@ -5,7 +5,6 @@ from security import authenticate, identity
 from resources.user import UserRegister, Users
 from resources.item import Items, Item
 from resources.store import Store, Stores
-from db import db
 
 # Set up some variables
 app = Flask(__name__)
@@ -14,11 +13,6 @@ api = Api(app)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///mydata.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False #Dont need this, SQLAlchemy has own tracking function
 jwt = JWT(app, authenticate, identity)
-
-
-@app.before_first_request
-def create_tables():
-    db.create_all()
 
 # Add resources (or end points)
 api.add_resource(Item, '/item/<string:item_name>')
